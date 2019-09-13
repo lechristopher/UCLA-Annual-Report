@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCLA Alumni Association Annual Report 2018-19 | Who We Are</title>
+    <link rel="stylesheet" type="text/css" href="css/global-mod.css" />
+    <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport4.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport-Media4.css" />
+    <link rel="stylesheet" type="text/css" href="css/Menu5.css"/>
+    <!-- Windows 8 IE 10-->
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+
+        function scrollto(id) {
+            var etop = $('#' + id).offset().top;
+            $(window).scrollTop(etop);
+        }
+
+        function scrolltoSticky(id) {
+            var etop = $('#' + id).offset().top - $('#navbar').height();
+            $(window).scrollTop(etop);
+        }
+
+        function getQS() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        function getUrlVars(sURL) {
+            var vars = [], hash;
+            var hashes;
+            if (sURL.indexOf('?') > -1 && sURL.indexOf('?') < sURL.length - 1) { // if URL contains ? and it isn't the last char
+                hashes = sURL.slice(sURL.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+            }
+            return vars;
+        }
+        function appendQS(targetURL) {
+            var hrefPage;
+            var varsPage = [];
+            hrefPage = window.location.href;
+            varsPage = getUrlVars(hrefPage);
+            var qs = "";
+            var hrefControl = targetURL;
+            var varsControl = getUrlVars(hrefControl);
+            var key;
+            for (var i = 0; i < varsPage.length; i++) {
+                key = varsPage[i];
+                try {
+                    if (varsControl[key] != null) {
+                        varsControl[key] = varsPage[key];
+                    }
+                    else {
+                        varsControl.push(key);
+                        varsControl[key] = varsPage[key];
+                    }
+                }
+                catch (err) {
+                }
+            }
+            for (var i = 0; i < varsControl.length; i++) {
+                key = varsControl[i];
+                qs += key + "=" + varsControl[key] + "&";
+            }
+            if (qs != "") {
+                qs = "?" + qs.slice(0, -1);
+                if (hrefControl.indexOf('?') > -1) {
+                    hrefControl = hrefControl.slice(0, hrefControl.indexOf('?'));
+                }
+                hrefControl += qs;
+            }
+            window.open(hrefControl, '_blank')
+        }
+        function escapeRegExp(str) {
+            return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+        }
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+        }
+
+        function randomNum(n) {
+            return Math.floor((Math.random() * n) + 1);
+        }
+
+        function Lookup(anArray, idLookup, fieldName) {
+            var result = $.grep(anArray, function (e) { return e.id === idLookup; });
+            if (result.length == 0) {
+                return "";
+            } else {
+                return result[0][fieldName];
+            }
+        }
+
+        function SelectSymbol(id) {
+            $('#' + id).find('.filterValue').css('color', '#FFD100');
+            var img = $('#' + id).find('.imgQuery');
+            if (img.length > 0) {
+                fName = img.attr('src');
+                img.attr('src', fName.replace("White", "Gold"));
+            }
+        }
+
+        $(document).ready(function () {
+
+            var qsLogin = getQS()["login"];
+
+            $(".categoryHeader").on('mouseenter', function () {
+                $(this).animate({ 'opacity': '0.85' }, 100);
+            });
+            $(".categoryHeader").on('mouseleave', function () {
+                $(this).animate({ 'opacity': '1.0' }, 100);
+            });
+
+            //$("#inpEmail").keyup(function (event) {
+            //    if (event.keyCode === 13) {
+            //        $("#divBtnGo").click();
+            //    }
+            //});
+
+            // scroll image to top, under nav bar.
+
+            scrollto("divHeaderImg");
+            $(window).scrollTop(0);
+
+            $('#navbar').on('click', 'a', function (e) {
+                $(this).parent().find('a').removeClass('active');
+                var anchorID = $(this).attr('id');
+                $(this).addClass('active');
+                var sRoot = anchorID.substring(1, anchorID.length);
+                scrolltoSticky("div" + sRoot);
+            });
+
+            $('#divMenuButton').click(function () {
+                toggleButton();
+            });
+
+            //$('#divBtnPrint').click(function () {
+            //    window.print();
+            //});
+
+            $('#divLearnHowToGetInvolved').click(function () {
+                window.location.href = "getinvolved.html";
+            });
+
+            $(window).scroll(function () {
+
+                var navbar = document.getElementById("navbar");
+                var sticky = navbar.offsetTop;
+
+                if (window.pageYOffset >= sticky) {
+                    navbar.classList.add('sticky');
+                } else {
+                    navbar.classList.remove('sticky');
+                }
+
+                $('#navbar').find('a').removeClass('active');
+                if  (window.pageYOffset + $('#navbar').height() >= $('#divInnovation').offset().top + $('#divInnovation').height()) {
+                    $('#aOurImpact').addClass('active');
+                } else if (window.pageYOffset + $('#navbar').height() >= $('#divHeaderImg').offset().top + $('#divHeaderImg').height()) {
+                    $('#aInnovation').addClass('active');
+                }
+
+                // updateMissionTextPadding();
+
+            });
+
+            $('#scroll').click(function () {
+                $("html, body").animate({ scrollTop: $("#divSchedule").offset().top }, 600);
+                return false;
+            });
+
+        });
+
+        function toggleButton() {
+            $('#myDropdown').toggleClass("show");
+        }
+
+        $('.selector').click(function () { toggleButton(); });
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // $(window).ready(updateMissionTextPadding);
+        // $(window).resize(updateMissionTextPadding);
+
+        // function updateMissionTextPadding() {
+        //     var imgDiv = $('#divImgOurMission');
+        //     var imgHeight = imgDiv.height();
+        //     var textDiv = $('#divTextOurMission');
+        //     var textHeight = textDiv.height();
+
+        //     if ((textDiv.offset().top >= imgDiv.offset().top) && (imgHeight > textHeight)) {
+        //         $('#divTextOurMission').css('padding-top', (imgHeight - textHeight) / 2);
+        //     } else $('#divTextOurMission').css('padding-top', 0);
+        // }
+
+    </script>
+</head>
+<body class="homePageBackgroundBlurImage">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQS39L9"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="OuterWrapper">
+
+        <div class="container">
+
+            <div id="navbar">
+
+                    <div class="dropdown">
+                            <button id="divMenuButton" class="dropbtn"></button>                  
+                            <div id="myDropdown" class="dropdown-content">
+                                <a href="index.html">Who We Are</a>
+                                <a href="programs.html">Fostering Connection</a>
+                                <a href="impact.html">Leading the Way</a>
+                                <a href="getinvolved.html">Find Your Community</a>
+                            </div>
+                        </div>
+
+                <div id="divSectionMenu">
+                    <div class="divBannerMenuItem"><a id="aInnovation" class="active" href="javascript:void(0)">Innovation</a></div>
+                    <div class="divBannerMenuItem">
+                        <a id="aOurImpact" href="javascript:void(0)">Our Impact</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div id="divHeaderImg">
+                    <img id="imgHeaderRoyce" class="imgHeader" src="images/Title-Innovation@2x.png" title="UCLA Innovation" alt="UCLA Innovation" />
+                </div>
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+        <div id="divInnovation">
+                <div id="divUCLALeadingtheWay" class="pageSectionOuter">
+
+                    <div class="pageSection">
+                        <div class="leftBlock">
+                            <div class="paddingH20 topBlock">
+                                <div class="headline transparentBlock marginBottom32">First in Innovation & Inclusion</div>                                
+                            </div>
+                        </div>
+
+                        <div class="clearBoth leftBlock width48pc">
+                            <div id="divD12" class="clearBoth">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divD12Image" class="floatLeft paddingTop12">
+                                        <img id="imgLTW" src="images/Innovation-First-Gen@2x.png" title="Innovation First Gen" alt="Innovation First Gen" />
+                                    </div>
+                                    <div id="divD12Quote" class="paddingH20 floatLeft">
+                                        <div class="floatBoxRightImpact rightContainerMobileImpact ">
+                                            <div class="quoteBox innovationBox">
+                                                “I wasn't the first one in my family to decide to go to college, I was the first one who had the opportunity.”
+                           <br><br>
+                                                <div class="bodyText">Choukri Wyatt<br> UCLA Senior</div>
+                                            </div>                                            
+                                        </div>
+                                     </div>
+                                    <div>
+                                        <div id="divD12SubHeadline" class="paddingH20 paddingTop32 subHeadlinePage3 marginBottom32 leftContainer50">
+                                            Affinity/First Gen Alumni Network
+                                        </div>
+
+                                        <div class="paddingH20 bodyText marginBottom16 leftContainer50">
+                                           UCLA is home to the first and only First Generation Alumni Network in the UC System.
+                                        </div>
+                                        <div class="paddingH20 bodyText marginBottom32  leftContainer90">
+                                            Established in 2017, the UCLA First Gen Newtork is part of a broader UC and campus wide initiative to help first generation students make a successful transition to college life, achieve greater success and raise the visibility of first-generation alumni.
+                                        </div>
+                                        <div class="twoColRow paddingH20 marginBottom32">
+                                            <div class="clearBoth twoColSection  marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="bodyText" >
+                                                            <div class="bulletList bodyText">
+                                                                    <ul class="marginBottom32">
+                                                                        <li>UCLA’s First Gen Network serves alumni from all backgrounds and ethnicities who are the first in their family to attend and graduate from college and includes students and siblings for which neither parent has received a four-year degree in the United States. </li>
+                                                                        <li>Unites first-generation students and alumni for social engagement, mentoring, professional development, scholarship/philanthropy and civic engagement.  </li>
+                                                                        
+                                                                    </ul>
+                                                                </div>
+                                                            </div>                                                            
+                                                </div>
+                                            </div>  
+                                            <div class="twoColSection marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                    <div>
+                                                        <div class="bodyText" >                                                            
+                                                                <div class="bulletList bodyText ">                                                                
+                                                                        <ul>
+                                                                            <li class="paddingH20">UCLA's First Gen Network was recognized this year with a Council for the Advancement and Support of Education (CASE) Circle of Excellence Gold Award</li>
+                                                                                <div class="clearBoth paddingH20 shadowLeft textLeft leftTwoColumnStackLevel1">
+                                                                                   <div>
+                                                                                       To date, 4,213 alumni identify as first-gen. If you’re a first generation graduate and would like to get involved with the network, please contact <a href="mailto:FirstGen@alumni.ucla.edu">FirstGen@alumni.ucla.edu</a>.
+                                                                                   </div>
+                                                                                </div>                                                                            
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                    </div>
+                                                </div>                                     
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Uniting Bruin Parents -->
+
+                            <div id="divAMP" class="clearBoth marginTop20">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divAMPImage" class="floatLeft">
+                                        <img id="imgAMP" src="images/Innovation-Parents-Council@2x.png" title="Innovation Parents Council" alt="Innovation Parents Council" />
+                                    </div>
+
+                                    <div class="clearBoth paddingTop32">
+                                        <div id="divAMPSubHeadline" class="subHeadlinePage3 marginBottom32">
+                                           Uniting Bruin Parents
+                                        </div>
+
+                                        <div class="bodyText marginBottom32">
+                                            UCLA Parent Council's Emeriti unites parents beyond the four-year plan, and is among the first in the country to reengage parents of university alumni.
+                                        </div>
+                                        <div class="twoColRow marginBottom32">
+                                                <div class="clearBoth twoColSection  marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                    <div class="paddingH20">
+                                                        <div class="bodyText" >
+                                                                <div class="bulletList  bodyText">
+                                                                        <ul>
+                                                                            <li>The UCLA Parents’ Council Emeriti was established in 2017 with the partnership of two enthusiastic former Parents’ Council members, Gail Aspinwall, Parent ’11 ’16 and Kent Chiu, Parent ’11 ’14 ’16.</li>                                                                                                                                                                                                                                 
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                    </div>
+                                                </div>  
+                                                <div class=" twoColSection textLeft leftTwoColumnStackLevel1">
+                                                        <div class="paddingH20">
+                                                            <div class="bodyText" >
+                                                                    <div class="bulletList  bodyText">
+                                                                            <ul>
+                                                                                    <li>The network hosted events to socialize and explore Los Angeles.</li>
+                                                                                    <li>They established the Parents’ Council Emeriti Scholarship. The first recipient will be selected for the 2020-21 academic year.</li>
+                                                                                                                                                 
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                        </div>
+                                                        
+                                                    </div>      
+                                                    <div class="twoColRow ">
+                                                            <div class="clearBoth twoColSection shadowLeft  textLeft leftTwoColumnStackLevel1">
+                                                                <div class="paddingH20">
+                                                                    <div class="transparentBlock numberBlock">38</div><div class="bodyText"> New Emeriti added to their ranks with the 2019 graduates.</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="twoColSection  textLeft leftTwoColumnStackLevel1">
+                                                                <div class="paddingH20">
+                                                                    <div class="bodyText">
+                                                                            <ul >
+                                                                                    <li>Two leadership positions, activities chair and scholarship chair, were created.</li>                                                                                                                                                    
+                                                                            </ul>
+                                                                        </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>                               
+                                            </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Block -->
+
+                        <div class="rightBlock width48pc">
+
+                            <!-- UCLA Mixed Alumni Association -->
+
+                            <div id="divMixedAlumni" class="clearBoth">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divVetNetImage" class="floatLeft paddingTop12">
+                                        <img id="imgVetNet" src="images/Innovation-Mixed-Alumni@2x.png" title="Innovation Mixed Alumni" alt="Innovation Mixed Alumni" />
+                                    </div>
+
+                                    <div class="clearBoth paddingTop20">
+                                        <div id="divVetNetSubHeadline" class="subHeadlinePage3 marginBottom32">
+                                                UCLA Mixed Alumni Association
+                                        </div>
+
+                                        <div class="bodyText marginBottom32">
+                                                Founded in 2015, the UCLA Mixed Alumni Association is the first and only alumni association of its kind in the country.
+                                        </div>
+                                        <div class="bodyText marginBottom32">
+                                                The UCLA Mixed Alumni Association provides a space for UCLA alumni, their families, future alumni and the UCLA community to share their experiences, explore and celebrate mixed heritage identity.  
+                                        </div>
+                                    </div>
+
+                                    <div class="twoColRow marginBottom32">
+                                        <div class="clearBoth twoColSection paddingBottom64 textLeft leftTwoColumnStackLevel1">
+                                            <div class="paddingH20">                                            
+                                                <div class="bodyText">
+                                                        <ul>
+                                                            <li>The mission of the UCLA Mixed Alumni Association is to build, support and strengthen a community around mixed heritage identity.</li>
+                                                        </ul>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="twoColSection marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                            <div class="paddingH20">                                                
+                                                    <div class="bodyText">
+                                                            <ul>
+                                                                <li>Our Association is open to all alumni and friends of UCLA.  To learn more or to get involved, contact us at: <a href="mailto:mixed@alumni.ucla.edu">mixed@alumni.ucla.edu</a>.</li>
+                                                            </ul>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div id="divVetNetImage" class="floatLeft">
+                                            <img id="imgVetNet" src="images/Innovation-Diversity-Success@2x.png" title="Innovation Diversity Success" alt="Innovation Diversity Success" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Diversity & Success -->
+                            <div id="divDiversity" class="clearBoth marginTop20">
+                    
+                                    <div class="clearBoth paddingTop32">
+                                            <div id="divVetNetSubHeadline" class="subHeadlinePage3 marginBottom32">
+                                                    Empowering Others: Diversity & Success
+                                            </div>
+    
+                                            <div class="bodyText marginBottom32">
+                                                    Diversity & Success is a new career series led by Partnership UCLA/Alumni Career Programs in partnership with a number of student-led organizations
+                                            </div>
+                                        </div>
+    
+                                        <div class="twoColRow marginBottom32">
+                                            <div class="clearBoth twoColSection marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">                                            
+                                                    <div class="bodyText">
+                                                            <ul>
+                                                                <li>The program is focused on connecting underrepresented students with diverse alumni in popular industries to create stronger hiring pathways.</li>
+                                                            </ul>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="twoColSection marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">                                                
+                                                        <div class="bodyText">
+                                                                <ul>
+                                                                    <li>Students meet with alumni from a wide variety of fields for roundtable and panel events including entertainment, government, law, media, nonprofit and sports.</li>
+                                                                </ul>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="twoColRow marginBottom32">
+                                        <div class="clearBoth oneColSection shadowLeft marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                            <div class="paddingH20">
+                                                    <div class="bodyText marginBottom32">
+                                                            “Diversity & Success exposed to me my own potential within the business world and inspired me to have bigger aspirations. It also exposed me to successful people who look like me and that have similar backgrounds which motivated me to reshape my current career goals.  This program provided exposure to diverse thought and emphasized how critical it is for success within the workplace.”                                        
+                                                    </div>
+                                                    <div class="bodyText marginBottom20">
+                                                            Amal Fahmi ’19, Sociology
+                                                </div>
+                                            </div>
+                                        </div>
+       
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divAwards" class="pageSectionOuter paddingBottom60">
+                </div>
+        </div>
+    </div>
+</div>
+    
+    <div class="dividerBar noPrint">
+            &nbsp;
+        </div>
+        <div class="dividerBar noPrint">
+                &nbsp;
+            </div>
+
+
+    <div id="divOurImpact">
+            <div id="divHighImpactProgramming" class="pageSectionOuter whiteBG">
+                <div class="pageSection">
+                    <div class="leftBlock wrapLevel1">
+                        <div id="outer" class="paddingH20 topBlock">
+                            <div class="headline boxText ">HIGH IMPACT PROGRAMMING</div>
+                        </div>
+                    </div>
+                    <div id="divTownAndGownText" class="clearBoth leftBlock width50pc colorBlack wrapLevel1">
+                        <div class="paddingH20 topBlock">
+                            <div id="divTextTownandGown">
+                                <div class="subHeadlinePage3 colorUCLABlue fontBold marginBottom32">
+                                        Alumni Day: Kickoff to Centennial
+                                </div>
+                                <div class="bodyText shadowLeft paddingH20 marginTop20 ">
+                                        On Saturday, May 18, 2019, Alumni Day marked the official launch of a yearlong celebration of UCLA’s first 100 years. 
+                                  <br><br>  The excitement was palpable. Timely speakers, engaging discussions, enlightening tours and unique opportunities to network across communities were the hallmarks of this celebration of UCLA’s history.
+                                </div>
+                                <div class="bodyText paddingTop32">                                    
+                                    <div class="leftBlock paddingH20 width45pc bulletList wrapLevel1"><ul><li>Nearly 4,000 alumni and friends returned to Westwood to reconnect with the familiar and explore all that is new.</li>
+                                        <li>37 campus partners hosted 121 activities in 47 locations.</li>
+                                        <li>Alumni Day raised a record-breaking number of sponsorship dollars for a single event, ($55,000). Sponsors engaged attendees by tabling, providing giveaways and hosting receptions.</li</ul></div>                                   
+                                    <div class="rightBlock width45pc  bulletList wrapLevel1">                                                                            
+                                        <div class="clearBoth shadowLeft marginBottom20 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">88% </div>
+                                                    <div class="bodyText"> of survey respondents rated Alumni Day as “good” or “great.”</div>
+                                                </div>
+                                            </div>
+                                            <div class="clearBoth  shadowLeft marginBottom20 textLeft leftTwoColumnStackLevel1">
+                                                    <div class="paddingH20">
+                                                        <div class="transparentBlock numberBlock">91% </div>
+                                                        <div class="bodyText">of survey respondents indicated that they would attend an Alumni Day in the future and 81% said that they would bring a friend.</div>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                </div>
+                                <div class="bodyText paddingTop20">                                                                                                                                                                              
+                                            <div class="clearBoth shadowLeft marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                    <div class="paddingH20">
+                                                            <div class="fontBold paddingBottom10">Daily Bruin Forum: A Conversation on Trump, 2020 and the Political Divide </div>
+                                                        <div class="bodyText">engaged alumni in a discourse about a topic of national interest with two experts in the field – Matea Gold ‘96, Political Enterprise & Investigations Editor for The Washington Post and UCLA Professor of Public Policy, Mark Peterson.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearBoth  shadowLeft marginBottom20 textLeft leftTwoColumnStackLevel1">
+                                                        <div class="paddingH20">
+                                                         <div class="fontBold paddingBottom10">A Conversation Amongst Chancellors </div>
+                                                            <div class="bodyText">brought Gene Block, Albert Carnesale and Charles E. Young, the three chancellors who have shaped UCLA since 1968 together on one stage to discuss topics ranging from diversity to athletics to free speech.</div>                                                            
+                                                            <div class="bodyText paddingTop20">A look at UCLA’s history with the Olympic Games and at its upcoming role in the 2028 Los Angeles Olympics and Paralympics</div>
+                                                        </div>
+                                                        
+                                                    </div>                                        
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divImgTownAndGown" class="rightBlock width48pc wrapLevel1"><img id="imgTownAndGown" class="communityImage" src="images/Impact-Alumni-Day@2x.png" title="Impact Alumni Day" alt="Impact Alumni Day" /></div>
+                </div>
+            </div>
+
+
+            <div id="divVolunteerDay" class="pageSectionOuter whiteBG">
+
+                <div class="pageSection">
+                    <div id="divImgVolunteer" class="leftBlock width48pc wrapLevel2"><img id="imgVolunteerDay" class="communityImage" src="images/Impact-2nd-Act@2x.png" title="Impact 2nd Act" alt="Impact 2nd Act" /></div>
+                    <div class="rightBlock width48pc colorBlack wrapLevel2">
+                        <div class="paddingH20 topBlock">
+                            <div id="divTextVolunteer">
+                                <div class="subHeadlinePage3 marginBottom32 colorUCLABlue fontBold">
+                                        2nd Act
+                                </div>
+                                <div class="bodyText paddingH20 shadowLeft">
+                                        The 2nd Act provides an empowering space which identifies and addresses the unique issues of Bruins over 50 with truth and inspiration.
+                                </div>
+                                <div class="bodyText paddingTop32">                                    
+                                        <div class="leftBlock paddingH20 width45pc bulletList wrapLevel1"><ul>
+                                            <li>The 2nd Act offers opportunities for more than 250,000 alumni to engage and learn, optimize health, volunteer and invest in themselves.</li>
+                                            <li class="paddingTop20">Topics have covered successful aging, starting new and different life chapters and dispelling popular perceptions on what aging means. </li>
+                                            <li class="paddingTop20">More than 400 Bruins attended four hosted events, averaging more than 100 attendees per session.</li>
+                                            <li class="paddingTop20">"Unlocking Your Inner TED" gave guests access to TED organizers and speakers who offered advice on all aspects of how to take the TED stage.</li></ul></div>                                                                                                                                                                                               
+                                        <div class="leftBlock paddingH20 width45pc bulletList wrapLevel1"><ul>
+                                              <li>"So You Want to Write a Book" helped attendees move past the hurdle of wanting to write a book by giving them tangible tools to turn a wish into a reality.</li>
+                                              <li class="paddingTop40">"Live from New York with Linda Lehrer!" challenged the myths many harbor about what people in their 2nd Act can and cannot do. </li>
+                                              <li class="paddingTop20">"Demystifying Start-ups: How to Get into Tech" featured Mark Kapczynski ‘93, a UCLA start-up evangelist whose mission is guiding those limiting themselves into a more techno-agile mindset</li></ul></div>                                                                                       
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div id="divRegionalNetworks" class="pageSectionOuter whiteBG">
+                <div class="pageSection">
+                    <div class="clearBoth leftBlock width50pc colorBlack wrapLevel1">
+                        <div class="paddingH20 topBlock">
+                            <div id="divTextRegionalNetworks">
+                                <div class="subHeadlinePage3 marginBottom32 colorUCLABlue fontBold">
+                                    UCLA Awards
+                                </div>
+                                <div class="twoColRow marginBottom20">
+                                        <div class="clearBoth oneColSection shadowLeft marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                            <div class="paddingH20">
+                                                    <div class="bodyText marginBottom20">
+                                                            UCLA Alumni Awards celebrates the accomplishments and impacts of truly remarkable Bruin leaders and volunteers.                                         
+                                                    </div>
+                                                    <div class="bodyText marginBottom20">
+                                                            Since 1946, UCLA has paid tribute to its most distinguished luminaries. From larger-than-life legends to community heroes, UCLA awards are bestowed upon Bruins who have brought great honor to the university and whose contributions impact the world.
+                                                </div>
+                                            </div>
+                                        </div>       
+                                    </div>
+                                <div class="leftBlock width45pc bulletList wrapLevel1">
+                                    <div class="shadowLeft marginBottom20 textLeft leftTwoColumnStackLevel1">
+                                        <div class="paddingH20">
+                                            <div class="transparentBlock numberBlock">90+ </div><div class="bodyText">Nominations reviewed by the Awards Committee</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="rightBlock width45pc bulletList wrapLevel1">
+
+                                    <div class="shadowLeft marginBottom20 textLeft leftTwoColumnStackLevel1">
+                                        <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">360</div><div class="bodyText">Guests gathered to celebrate seven legendary icons and community leaders as UCLA’s best, brightest and most inspirational.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bodyText paddingTop20">                                                                                                                                                                              
+                                        <div class="clearBoth marginBottom20 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                        <div class="fontBold paddingBottom10">Awards Winners</div>
+                                                        <div class="leftBlock bulletList wrapLevel1"><ul>
+                                                                <li class="paddingTop10">Edward A. Dickson Alumnus of the Year: <span class="AwardWinners">MO OSTIN ’51</span></li>
+                                                                <li class="paddingTop16">UCLA Award for Professional Achievement: <span class="AwardWinners">VALORIE KONDOS FIELD ’87</span> </li>
+                                                                <li class="paddingTop16">UCLA Young Alumnus of the Year Award: <span class="AwardWinners">KATYA B. DANIEL ’08</span></li>
+                                                                <li class="paddingTop16">UCLA Award for Public Service: <span class="AwardWinners">WILLIAM “RUSTY” BAILEY, III, M.P.P. ’99</span></li>
+                                                                <li class="paddingTop16">UCLA Award for Community Service: <span class="AwardWinners">ROXANA DUEÑAS, M.ED. ’09</span></li>
+                                                                <li class="paddingTop16">UCLA Award for Alumni Volunteer of the Year: <span class="AwardWinners">STEPHANIE BROWN ’85</span> </li>
+                                                                <li class="paddingTop16">UCLA Award for Network of the Year: <span class="AwardWinners">UCLA LATINO ALUMNI ASSOCIATION</span> </li>
+                                                                <li class="paddingTop">Learn more about our 2019 Award Recipients <a href="https://alumni.ucla.edu/awards/">https://alumni.ucla.edu/awards"</a></li>
+                                                            </ul></div>      
+                                                </div>
+                                            </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divImgRegionalNetworks" class="rightBlock width48pc wrapLevel1"><img id="imgRegionalNetworks" class="communityImage" src="images/Impact-UCLA-Awards@2x.png" title="Regional Networks" alt="Regional Networks" /></div>
+                </div>
+            </div>
+            <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divNext" class="pageSectionOuter">
+                    <div id="divNext" class="pageSectionOuter">
+                            <div class="pageSection nextButton">
+                                    <div id="divLearnHowToGetInvolved" ><img src="images/Innovation-End-Button@2x.png" class="nextButton"></div>
+                                </div>
+                        </div>                
+                </div>
+        </div>
+</body>
+</html>

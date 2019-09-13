@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCLA Alumni Association Annual Report 2018-19 | Get Involved</title>
+    <link rel="stylesheet" type="text/css" href="css/global-mod.css" />
+    <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport4.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport-Media4.css" />
+    <link rel="stylesheet" type="text/css" href="css/Menu5.css"/>
+    <!-- Windows 8 IE 10-->
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+
+        function scrollto(id) {
+            var etop = $('#' + id).offset().top;
+            $(window).scrollTop(etop);
+        }
+
+        function scrolltoSticky(id) {
+            var etop = $('#' + id).offset().top - $('#navbar').height();
+            $(window).scrollTop(etop);
+        }
+
+        function getQS() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        function getUrlVars(sURL) {
+            var vars = [], hash;
+            var hashes;
+            if (sURL.indexOf('?') > -1 && sURL.indexOf('?') < sURL.length - 1) { // if URL contains ? and it isn't the last char
+                hashes = sURL.slice(sURL.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+            }
+            return vars;
+        }
+        function appendQS(targetURL) {
+            var hrefPage;
+            var varsPage = [];
+            hrefPage = window.location.href;
+            varsPage = getUrlVars(hrefPage);
+            var qs = "";
+            var hrefControl = targetURL;
+            var varsControl = getUrlVars(hrefControl);
+            var key;
+            for (var i = 0; i < varsPage.length; i++) {
+                key = varsPage[i];
+                try {
+                    if (varsControl[key] != null) {
+                        varsControl[key] = varsPage[key];
+                    }
+                    else {
+                        varsControl.push(key);
+                        varsControl[key] = varsPage[key];
+                    }
+                }
+                catch (err) {
+                }
+            }
+            for (var i = 0; i < varsControl.length; i++) {
+                key = varsControl[i];
+                qs += key + "=" + varsControl[key] + "&";
+            }
+            if (qs != "") {
+                qs = "?" + qs.slice(0, -1);
+                if (hrefControl.indexOf('?') > -1) {
+                    hrefControl = hrefControl.slice(0, hrefControl.indexOf('?'));
+                }
+                hrefControl += qs;
+            }
+            window.open(hrefControl, '_blank')
+        }
+        function escapeRegExp(str) {
+            return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+        }
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+        }
+
+        function randomNum(n) {
+            return Math.floor((Math.random() * n) + 1);
+        }
+
+        function Lookup(anArray, idLookup, fieldName) {
+            var result = $.grep(anArray, function (e) { return e.id === idLookup; });
+            if (result.length == 0) {
+                return "";
+            } else {
+                return result[0][fieldName];
+            }
+        }
+
+        function SelectSymbol(id) {
+            $('#' + id).find('.filterValue').css('color', '#FFD100');
+            var img = $('#' + id).find('.imgQuery');
+            if (img.length > 0) {
+                fName = img.attr('src');
+                img.attr('src', fName.replace("White", "Gold"));
+            }
+        }
+
+        $(document).ready(function () {
+
+            var qsLogin = getQS()["login"];
+
+            $(".categoryHeader").on('mouseenter', function () {
+                $(this).animate({ 'opacity': '0.85' }, 100);
+            });
+            $(".categoryHeader").on('mouseleave', function () {
+                $(this).animate({ 'opacity': '1.0' }, 100);
+            });
+
+            //$("#inpEmail").keyup(function (event) {
+            //    if (event.keyCode === 13) {
+            //        $("#divBtnGo").click();
+            //    }
+            //});
+
+            // scroll image to top, under nav bar.
+
+            scrollto("divHeaderImg");
+            $(window).scrollTop(0);
+
+            $('#navbar').on('click', 'a', function (e) {
+                $(this).parent().find('a').removeClass('active');
+                var anchorID = $(this).attr('id');
+                $(this).addClass('active');
+                var sRoot = anchorID.substring(1, anchorID.length);
+                scrolltoSticky("div" + sRoot);
+            });
+
+            $('#divMenuButton').click(function () {
+                toggleButton();
+            });
+
+            //$('#divBtnPrint').click(function () {
+            //    window.print();
+            //});
+
+            // $('#divSeeProgramming').click(function () {
+            //     window.location.href = "programs.html";
+            // });
+
+            $(window).scroll(function () {
+
+                var navbar = document.getElementById("navbar");
+                var sticky = navbar.offsetTop;
+
+                if (window.pageYOffset >= sticky) {
+                    navbar.classList.add('sticky');
+                } else {
+                    navbar.classList.remove('sticky');
+                }
+
+                $('#navbar').find('a').removeClass('active');
+                // if  (window.pageYOffset + $('#navbar').height() >= $('#divUsefulLinks').offset().top + $('#divUsefulLinks').height()) {
+                //     $('#aGetInvolved').addClass('active');                
+                // } else if (window.pageYOffset + $('#navbar').height() /2 >= $('#divHeaderImg').offset().top + $('#divHeaderImg').height()) {
+                //     $('#aGetInvolved').addClass('active');
+                // }
+
+
+
+               if (window.pageYOffset >= $('#divHeaderImg').offset().top + $('#divHeaderImg').height()) {
+                    $('#aGetInvolved').addClass('active');
+                }
+
+
+                // updateMissionTextPadding();
+
+            });
+
+            $('#scroll').click(function () {
+                $("html, body").animate({ scrollTop: $("#divSchedule").offset().top }, 600);
+                return false;
+            });
+
+        });
+
+        
+
+        function toggleButton() {
+            $('#myDropdown').toggleClass("show");
+        }
+
+        $('.selector').click(function () { toggleButton(); });
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // $(window).ready(updateMissionTextPadding);
+        // $(window).resize(updateMissionTextPadding);
+
+        // function updateMissionTextPadding() {
+        //     var imgDiv = $('#divImgOurMission');
+        //     var imgHeight = imgDiv.height();
+        //     var textDiv = $('#divTextOurMission');
+        //     var textHeight = textDiv.height();
+
+        //     if ((textDiv.offset().top >= imgDiv.offset().top) && (imgHeight > textHeight)) {
+        //         $('#divTextOurMission').css('padding-top', (imgHeight - textHeight) / 2);
+        //     } else $('#divTextOurMission').css('padding-top', 0);
+        // }
+
+    </script>
+</head>
+<body class="homePageBackgroundBlurImage">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQS39L9"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="OuterWrapper">
+
+        <div class="container">
+
+            <div id="navbar">
+
+                    <div class="dropdown">
+                            <button id="divMenuButton" class="dropbtn"></button>                  
+                            <div id="myDropdown" class="dropdown-content">
+                                <a href="index.html">Who We Are</a>
+                                <a href="programs.html">Fostering Connection</a>
+                                <a href="impact.html">Leading the Way</a>
+                                <a href="getinvolved.html">Find Your Community</a>
+                            </div>
+                        </div>
+
+                <div id="divSectionMenu">
+                    <div class="divBannerMenuItem"><a id="aGetInvolved" class="active" href="javascript:void(0)">Useful Links</a></div>
+
+                </div>
+            </div>
+
+            <div class="content">
+                <div id="divHeaderImg">
+                    <img id="imgHeaderRoyce" class="imgHeader" src="images/Title-Get-Involved@2x.png" title="UCLA Get Involved" alt="UCLA Get Involved" />
+                </div>
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+                <div id="divUsefulLinks">
+<div id="divGetInvolved" class="pageSection">
+                <div class="threeColRow">
+                        <div class="clearBoth threeColSection">
+                            <div class="subHeadlinePage4 awardHeadlinePage4 paddingH20">We've Got Something for Everyone</div>
+                            <div class="bodyTextgetInvolved textCenter marginBottom20">
+                                    Bookmark the events calendar and visit often to find out about upcoming programs. More than 80% of all offerings are without charge. Regardless of your location or interests, we’ve&#160;got&#160;you&#160;covered!
+                                </div>
+                            <div class="awardImageDiv paddingH20"><a href="https://alumni.ucla.edu/events-calendar/"><img id="imgCaseAward1" src="images/Event-Calendar-Button@2x.png" class="awardImage paddingTop35" title="Events" alt="CASE Circle of Excellence" /></a></div>
+                        </div>
+                        <div class="threeColSection">
+                            <div class="subHeadlinePage4 awardHeadlinePage4 paddingH20">Let's Connect</div>
+                            <div class="bodyTextgetInvolved textCenter marginBottom20">
+                                    The best way to be in the know is to ensure your information is up to date!  To update your contact information click below or register. You may also email us with any updates at <a href="mailto:alumni@alumni.ucla.edu">alumni@alumni.ucla.edu</a> or call 800-825-2586.
+                                </div>
+                            <div class="awardImageDiv paddingH20"><a href="mailto:alumni@alumni.ucla.edu"><img id="imgCaseAward2" src="images/Update-Info-Button@2x.png" class="awardImage paddingTop10"  alt="Stay Connected" /></a></div>
+                        </div>
+                        <div class="threeColSection">                            
+                            <div class="subHeadlinePage4 awardHeadlinePage4 paddingH20">Join UCLA ONE</div>
+                            <div class="bodyTextgetInvolved textCenter marginBottom20">
+                                    Join a community of over 32,000 Bruins - UCLA’s exclusive online career community is waiting for you at <a href="www.uclaone.com">www.uclaone.com</a>.
+                                </div>
+                           <div class="awardImageDiv paddingH20"><a href="https://www.uclaone.com"><img id="imgCaseAward3" src="images/UCLA-One-Button@2x.png"  class="awardImage paddingTop64"  alt="UCLAone" /></a></div>
+                        </div>
+                    </div>
+                    
+</div>
+</div>
+<div class="dividerBar noPrint">
+        &nbsp;
+    </div>
+    <div class="dividerBar noPrint">
+            &nbsp;
+        </div>
+
+        <div class="twoColRow paddingTop40">
+                <div class="row">
+                    <div id="ImpactDashboard" class="column">
+                        <img src="images/Impact-Dashboard-Icon@2x.png" class="getInvolvedImage1" title="CASE Circle of Excellence" alt="CASE Circle of Excellence"/>                    
+                    <div class="footerText">2018-2019 Impact Statement</div></div>
+                        <div class="column">
+                            <img id="AlumniLogo" src="images/UCLA-Alumni-Logo-White@2x.png" >
+                          <img id="OneHundredYears" src="images/UCLA-100-Years-Logo-White@2x.png" >
+                          
+                        </div>
+                      </div>          
+                        </div>
+                      </div>
+
+
+
+</body>
+</html>
+ 

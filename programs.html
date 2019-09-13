@@ -1,0 +1,830 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCLA Alumni Association Annual Report 2018-19 | Our Programs</title>
+    <link rel="stylesheet" type="text/css" href="css/global-mod.css" />
+    <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport4.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport-Media4.css" />
+    <link rel="stylesheet" type="text/css" href="css/Menu5.css" />
+    <!-- Windows 8 IE 10-->
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+
+        function scrollto(id) {
+            var etop = $('#' + id).offset().top;
+            $(window).scrollTop(etop);
+        }
+
+        function scrolltoSticky(id) {
+            var etop = $('#' + id).offset().top - $('#navbar').height();
+            $(window).scrollTop(etop);
+        }
+
+        function getQS() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        function getUrlVars(sURL) {
+            var vars = [], hash;
+            var hashes;
+            if (sURL.indexOf('?') > -1 && sURL.indexOf('?') < sURL.length - 1) { // if URL contains ? and it isn't the last char
+                hashes = sURL.slice(sURL.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+            }
+            return vars;
+        }
+        function appendQS(targetURL) {
+            var hrefPage;
+            var varsPage = [];
+            hrefPage = window.location.href;
+            varsPage = getUrlVars(hrefPage);
+            var qs = "";
+            var hrefControl = targetURL;
+            var varsControl = getUrlVars(hrefControl);
+            var key;
+            for (var i = 0; i < varsPage.length; i++) {
+                key = varsPage[i];
+                try {
+                    if (varsControl[key] != null) {
+                        varsControl[key] = varsPage[key];
+                    }
+                    else {
+                        varsControl.push(key);
+                        varsControl[key] = varsPage[key];
+                    }
+                }
+                catch (err) {
+                }
+            }
+            for (var i = 0; i < varsControl.length; i++) {
+                key = varsControl[i];
+                qs += key + "=" + varsControl[key] + "&";
+            }
+            if (qs != "") {
+                qs = "?" + qs.slice(0, -1);
+                if (hrefControl.indexOf('?') > -1) {
+                    hrefControl = hrefControl.slice(0, hrefControl.indexOf('?'));
+                }
+                hrefControl += qs;
+            }
+            window.open(hrefControl, '_blank')
+        }
+        function escapeRegExp(str) {
+            return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+        }
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+        }
+
+        function randomNum(n) {
+            return Math.floor((Math.random() * n) + 1);
+        }
+
+        function Lookup(anArray, idLookup, fieldName) {
+            var result = $.grep(anArray, function (e) { return e.id === idLookup; });
+            if (result.length == 0) {
+                return "";
+            } else {
+                return result[0][fieldName];
+            }
+        }
+
+        function SelectSymbol(id) {
+            $('#' + id).find('.filterValue').css('color', '#FFD100');
+            var img = $('#' + id).find('.imgQuery');
+            if (img.length > 0) {
+                fName = img.attr('src');
+                img.attr('src', fName.replace("White", "Gold"));
+            }
+        }
+
+        function NavigateWithNewTab(url) {
+            var win = window.open(url, '_blank');
+            if (win) {
+                //Browser has allowed it to be opened
+                win.focus();
+            } else {
+                //Browser has blocked it
+                alert('Please allow popups for this website');
+            }
+        }
+
+        $(document).ready(function () {
+
+            var qsLogin = getQS()["login"];
+
+            $(".categoryHeader").on('mouseenter', function () {
+                $(this).animate({ 'opacity': '0.85' }, 100);
+            });
+            $(".categoryHeader").on('mouseleave', function () {
+                $(this).animate({ 'opacity': '1.0' }, 100);
+            });
+
+            //$("#inpEmail").keyup(function (event) {
+            //    if (event.keyCode === 13) {
+            //        $("#divBtnGo").click();
+            //    }
+            //});
+
+            // scroll image to top, under nav bar.
+
+            scrollto("divHeaderImg");
+            $(window).scrollTop(0);
+
+            $('#navbar').on('click', 'a', function (e) {
+                $(this).parent().find('a').removeClass('active');
+                var anchorID = $(this).attr('id');
+                $(this).addClass('active');
+                var sRoot = anchorID.substring(1, anchorID.length);
+                scrolltoSticky("div" + sRoot);
+            });
+
+            $('#divMenuButton').click(function () {
+                toggleButton();
+            });
+
+            //$('#divBtnPrint').click(function () {
+            //    window.print();
+            //});
+
+            $('#divLearnMore').click(function () {
+                NavigateWithNewTab ("https://alumni.ucla.edu/alumni-networks/the-affiliates-network/");
+            });
+
+            $('#divUCLAONE').click(function () {
+                NavigateWithNewTab ("https://uclaone.com");
+            });
+
+            $('#divSeeImpact').click(function () {
+                window.location.href = "impact.html";
+            });
+
+            $(window).scroll(function () {
+
+                var navbar = document.getElementById("navbar");
+                var sticky = navbar.offsetTop;
+
+                if (window.pageYOffset >= sticky) {
+                    navbar.classList.add('sticky');
+                } else {
+                    navbar.classList.remove('sticky');
+                }
+
+                $('#navbar').find('a').removeClass('active');
+                if (window.pageYOffset + $('#navbar').height() >= $('#divUCLANetwork').offset().top + $('#divUCLANetwork').height()) {
+                    $('#aOnlinePrograms').addClass('active');
+                } else if (window.pageYOffset + $('#navbar').height() >= $('#divCommunity').offset().top + $('#divCommunity').height()) {
+                    $('#aUCLANetwork').addClass('active');
+                } else if (window.pageYOffset + $('#navbar').height() >= $('#divHeaderImg').offset().top + $('#divHeaderImg').height()) {
+                    $('#aCommunity').addClass('active');
+                }
+
+                // updateMissionTextPadding();
+
+            });
+
+            //$('#scroll').click(function () {
+            //    $("html, body").animate({ scrollTop: $("#divSchedule").offset().top }, 600);
+            //    return false;
+            //});
+
+        });
+
+        function toggleButton() {
+            $('#myDropdown').toggleClass("show");
+        }
+
+        $('.selector').click(function () { toggleButton(); });
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // $(window).ready(updateMissionTextPadding);
+        // $(window).resize(updateMissionTextPadding);
+
+        // function updateMissionTextPadding() {
+        //     var imgDiv = $('#divImgOurMission');
+        //     var imgHeight = imgDiv.height();
+        //     var textDiv = $('#divTextOurMission');
+        //     var textHeight = textDiv.height();
+
+        //     if ((textDiv.offset().top >= imgDiv.offset().top) && (imgHeight > textHeight)) {
+        //         $('#divTextOurMission').css('padding-top', (imgHeight - textHeight) / 2);
+        //     } else $('#divTextOurMission').css('padding-top', 0);
+        // }
+
+    </script>
+</head>
+<body class="homePageBackgroundBlurImage">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQS39L9"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="OuterWrapper">
+
+        <div class="container">
+
+            <div id="navbar">
+
+                    <div class="dropdown">
+                            <button id="divMenuButton" class="dropbtn"></button>                  
+                            <div id="myDropdown" class="dropdown-content">
+                                <a href="index.html">Who We Are</a>
+                                <a href="programs.html">Fostering Connection</a>
+                                <a href="impact.html">Leading the Way</a>
+                                <a href="getinvolved.html">Find Your Community</a>
+                            </div>
+                        </div>
+
+                <div id="divSectionMenu">
+                    <div class="divBannerMenuItem"><a id="aCommunity" class="active" href="javascript:void(0)">Community</a></div>
+                    <div class="divBannerMenuItem">
+                        <a id="aUCLANetwork" href="javascript:void(0)">UCLA Network</a>
+                    </div>
+                    <div class="divBannerMenuItem">
+                        <a id="aOnlinePrograms" href="javascript:void(0)">Online Programs</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div id="divHeaderImg">
+                    <img id="imgHeaderRoyce" class="imgHeader" src="images/Title-Programs-@2x.png" title="UCLA Students in front of Pauley" alt="UCLA Students in front of Pauley" />
+                </div>
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divCommunity">
+                    <div id="divTownandGown" class="pageSectionOuter whiteBG">
+                        <div class="pageSection">
+                            <div class="leftBlock wrapLevel1">
+                                <div id="outer" class="paddingH20 topBlock">
+                                    <div class="headline boxText">UCLA in the Community</div>
+                                </div>
+                            </div>
+                            <div id="divTownAndGownText" class="clearBoth leftBlock width50pc colorBlack wrapLevel1">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divTextTownandGown">
+                                        <div class="subHeadlinePage2 colorUCLABlue fontBold paddingBottom32">
+                                            The Town and Gown Affiliates of UCLA and UCLA Diversity Programs Barbeque
+                                        </div>
+                                        <div class="bodyText shadowLeft paddingH20">
+                                                In fall 2018, 56 Bruins enjoyed an afternoon barbecue and presentation by Professor Bill Purdy M.A. ʼ03, Ph.D. ʼ16. Dr. Purdy spoke of UCLA’s early history and the value that longstanding networks such as theirs bring to the university’s connection with the local community.
+                                        </div>
+                                        <div class="bodyText paddingTop32 paddingH20">
+                                            <div class="fontBold marginBottom16 ">About Town & Gown Affiliates of UCLA:</div>
+                                            <div class="leftBlock width45pc bulletList wrapLevel1 "><ul><li>Founded in 1937, The Affiliates serve as a cultural bridge that links the community to UCLA.</li>
+                                                <li>The Affiliates is the university’s oldest Town & Gown organization. “Town” symbolizes the Los Angeles community that surrounds campus and “Gown” the robes of academia’s highest honors and degrees.</li>
+                                                <li>•	Network events take place over lunch and dinner, offer a window into education and feature distinguished faculty lecturers and noted speakers.</li></ul></div>
+                                            <div class="rightBlock width45pc bulletList wrapLevel1">
+                                                <ul><li>The Affiliates are longstanding supporters of academic scholarships for students and proudly sponsor the Best Production award at Spring Sing, a showcase of UCLA’s most talented singers, dancers and sketch comedy performers.</li>
+                                                    <li>Anyone is welcome to join The Town & Gown Affiliates!</li></ul>
+                                                <div id="divLearnMore" class="cta">Click Here to Learn More!</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divImgTownAndGown" class="rightBlock width48pc wrapLevel1"><img id="imgTownAndGown" class="communityImage" src="images/Community-Town-Gown@2x.png" title="Town and Gown" alt="Town and Gown" /></div>
+                        </div>
+                    </div>
+
+                    <div id="divVolunteerDay" class="pageSectionOuter whiteBG">
+
+                        <div class="pageSection">
+                            <div id="divImgVolunteer" class="leftBlock width48pc wrapLevel2"><img id="imgVolunteerDay" class="communityImage" src="images/Community-Volunteer-Day@2x.png" title="Volunteer Day" alt="Volunteer Day" /></div>
+                            <div class="rightBlock width48pc colorBlack wrapLevel2">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divTextVolunteer">
+                                        <div class="subHeadlinePage2 colorUCLABlue fontBold  paddingBottom32">
+                                            10th Annual UCLA Volunteer Day
+                                        </div>
+                                        <div class="bodyText paddingH20 shadowLeft">
+                                            UCLA Volunteer Day unites students, alumni, staff, faculty, elected officials and community members through a global day of service.
+                                        </div>
+                                        <div class="threeColRow paddingTop32">
+                                            <div class="threeColSection textLeft shadowLeft  paddingBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">2,600+</div>Volunteers
+                                                </div>
+                                            </div>
+                                            <div class="threeColSection textLeft shadowLeft  paddingBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">50</div>Projects throughout Los Angeles
+                                                </div>
+                                            </div>
+                                            <div class="threeColSection textLeft shadowLeft  paddingBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">18</div>Domestic and global projects
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bodyText paddingTop20  paddingBottom32">Service projects were expanded to include alumni leaders and their networks. This change has sparked tremendous success throughout the year through One Bus, One Cause and network led service projects.</div>
+
+                                        <div class="bodyText paddingH20 shadowLeft">
+                                            Five Diversity and five Regional Networks donated 900 toys to grateful children.
+                                        </div>
+                                        <div>&#160;</div>
+                                        <div class="bodyText paddingH20 shadowLeft">
+                                            Silicon Beach Bruins and Volunteer Center partnered to package 23,000 pounds of fruit for needy families in Los Angeles at the LA Food Bank
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="divRegionalNetworks" class="pageSectionOuter whiteBG">
+                        <div class="pageSection">
+                            <div class="clearBoth leftBlock width50pc colorBlack wrapLevel1">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divTextRegionalNetworks">
+                                        <div class="subHeadlinePage2 colorUCLABlue fontBold paddingBottom32">
+                                            Regional Networks Circle the Globe
+                                        </div>                                    
+                                        <div class="bodyText shadowLeft paddingH20  ">
+                                            Throughout the year Regional Networks and volunteers from around the world host events that ignite Bruin Spirit and establish the global reach of the alumni community.  #UCBruinsEverywhere – it’s so much more than a hashtag.
+                                        </div>
+                                        <div style="line-height:32px;">&#160;</div>
+                                        <div class="bodyText shadowLeft paddingH20 ">
+                                            Bruin Spirit! 39 networks hosted 191 football game watch parties
+                                        </div>
+                                        <div style="line-height:32px;">&#160;</div>
+                                        <div class="leftBlock width45pc bulletList wrapLevel1">
+                                            <div class="shadowLeft marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">348</div><div class="bodyText">Events hosted by regional network leaders worldwide, an increase of 38% over last year.</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="clearBoth shadowLeft marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">19</div><div class="bodyText">Regional networks hosted UCLA Common Book discussions</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="marginBottom32 textLeft leftTwoColumnStackLevel1 font16">
+                                                <div class="paddingH20">
+                                                    <ul><li>Regional Networks proudly connect local alumni at Bruin-owned businesses around the world. Join the Bruin Business Owners community on UCLA ONE.</li></ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="rightBlock width45pc bulletList wrapLevel1">
+
+                                            <div class="shadowLeft marginBottom32 textLeft leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">22</div><div class="bodyText">Alumni networks hosted this record number of holiday parties, many supported local toy drives.</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="textLeft leftTwoColumnStackLevel1 font16">
+                                                <div class="paddingH20">
+                                                    <ul><li>Regional Networks and Diversity Programs partnered to expand the popular Professors in the Pub series beyond Los Angeles. Topics ranged from housing justice and Native American hip hop to Arthur Ashe.</li></ul>
+                                                </div>
+                                            </div>
+
+                                            <div id="divUCLAONE" class="cta">UCLA ONE</div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divImgRegionalNetworks" class="rightBlock width48pc wrapLevel1"><img id="imgRegionalNetworks" class="communityImage" src="images/Community-Regional-Networks@2x.png" title="Regional Networks" alt="Regional Networks" /></div>
+                        </div>
+                    </div>
+
+
+                    <div id="divFilmFestival" class="pageSectionOuter whiteBG">
+
+                        <div class="pageSection">
+                            <div id="divImgFileFestival" class="leftBlock width48pc wrapLevel2"><img id="imgFilmFestival" class="communityImage" src="images/Community-Film-Festival@2x.png" title="Film Festival" alt="Film Festival" /></div>
+                            <div class="rightBlock width48pc colorBlack wrapLevel2">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divTextFilmFestival">
+                                        <div class="subHeadlinePage2 marginBottom32 colorUCLABlue fontBold">
+                                            Ethnic Studies Film Festival
+                                        </div>
+                                        <div class="bodyText paddingH20 shadowLeft marginBottom32">
+                                                Diversity Programs in partnership with the UCLA Institute of American Cultures and its four ethnic studies centers celebrated five decades of changing social and cultural realities in America with an ethnic studies film festival featuring movies directed, produced or written by UCLA alumni. An impassioned audience of students, faculty, staff and alumni rotated through the James West Alumni Center throughout the showcase.
+                                        </div>
+                                        <div class="threeColRow">
+                                                <div class="threeColSection textLeft shadowLeft marginBottom32">
+                                                        <div class="paddingH20">
+                                                            <div class="transparentBlock numberBlock">14</div>Alumni directors, writers and producers
+                                                        </div>
+                                                    </div>
+                                            <div class="threeColSection textLeft shadowLeft marginBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">9</div>Featured films
+                                                </div>
+                                            </div>
+
+                                            <div class="threeColSection textLeft shadowLeft marginBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">1,000+</div>Attendees
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bodyText marginBottom32">Service projects were expanded to include alumni leaders and their networks. This change has sparked tremendous success throughout the year through One Bus, One Cause and network led service projects.</div>
+
+                                        <div class="bodyText paddingH20 shadowLeft marginBottom32">
+                                            Five Diversity and five Regional Networks donated 900 toys to grateful children.
+                                        </div>
+                                        <div class="bodyText paddingH20 shadowLeft">
+                                            Silicon Beach Bruins and Volunteer Center partnered to package 23,000 pounds of fruit for needy families in Los Angeles at the LA Food Bank.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dividerBar noPrint">
+                        &nbsp;
+                    </div>
+                    <div class="dividerBar noPrint">
+                            &nbsp;
+                        </div>
+                <div id="divUCLANetwork" class="pageSectionOuter">
+
+                    <div class="pageSection">
+                        <div class="leftBlock">
+                            <div class="paddingH20 topBlock">
+                                <div class="headline transparentBlock marginBottom32">UCLA Network Connections</div>
+                            </div>
+                        </div>
+
+                        <div class="clearBoth leftBlock width48pc">
+                            <div id="divD12" class="clearBoth">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divD12Image" class="floatLeft paddingBottom32">
+                                        <img id="imgD12" src="images/Connections-D12-2x.png" title="Dinner for 12 Strangers" alt="Dinner for 12 Strangers" />
+                                    </div>
+                                    <div id="divD12Quote" class="paddingH20 floatLeft">
+                                        <div class="floatBoxRight">
+                                            <div class="quoteBox quoteBoxResponsive">
+                                                “We had a wonderful time.  For three hours we took turns talking and then we all talked at once.  The youngest graduated in 2017 and the oldest was from the class of 1968.  Age did not matter at the dinner.”<br><br>Gloria Weinblatt ’68, Plano, Tex.
+                                            </div>
+                                        </div>
+                                     </div>
+                                    <div class="leftContainer">
+                                        <div id="divD12SubHeadline" class="marginBottom32 subHeadlinePage2 D12responsiveTitle">
+                                            Dinner for 12 Strangers
+                                        </div>
+
+                                        <div class="bodyText marginBottom32 D12responsiveText">
+                                            This 51-year-old UCLA tradition unites the Bruin network for fun and friendship over a shared meal.
+                                        </div>
+
+                                        <div class="paddingH20 shadowLeft marginBottom32 bodyText D12responsiveText">
+                                            CASE Circle of Excellence Gold award winner
+                                        </div>
+                                    </div>
+
+                                    <div class="threeColRow marginBottom32">
+                                        <div class="clearBoth threeColSection shadowLeft marginBottom32 textLeft wrapLevel3">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">408</div><div class="bodyText">Hosts, 77 co-hosts worldwide</div>
+                                            </div>
+                                        </div>
+                                        <div class="threeColSection shadowLeft marginBottom32 textLeft wrapLevel3">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">22</div><div class="bodyText">Countries, 33 states</div>
+                                            </div>
+                                        </div>
+                                        <div class="threeColSection shadowLeft marginBottom32 textLeft wrapLevel3">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">130</div><div class="bodyText">Dinners in California</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearBoth paddingH20 shadowLeft  bodyText">
+                                        1,250 Students engaged and supported by alumni at local dinners
+                                    </div>
+
+                                    <div class="paddingH20 shadowLeft bodyText marginBottom44">
+                                        Diversity Network volunteers hosted six identity-specific Dinners for 12 Strangers
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+
+                            <!-- Alumni Mentors -->
+
+                            <div id="divAMP" class="clearBoth marginTop20">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divAMPImage" class="floatLeft">
+                                        <img id="imgAMP" src="images/Connections-Mentors-2x.png" title="Alumni Mentor Program" alt="Alumni Mentor Program" />
+                                    </div>
+
+                                    <div class="clearBoth paddingTop32">
+                                        <div id="divAMPSubHeadline" class="subHeadline">
+                                            UCLA Alumni Mentor Program
+                                        </div>
+
+                                        <div class="bodyText marginBottom32">
+                                                UCLA Alumni Mentor Program unites hundreds of students and alumni mentor pairs for powerful career and personal connections. Established by the UCLA Alumni Scholars Club and now in its 15th year, the UCLA Alumni Mentor Program continues to foster meaningful relationships between UCLA alumni and current UCLA students. The connections made in this program help prepare our students for a successful future and leave a lasting impact on our campus community.  
+                                        </div>
+
+                                    </div>
+
+                                    <div class="threeColRow marginBottom32">
+                                        <div class="clearBoth threeColSection shadowLeft marginBottom32 textLeft wrapLevel3">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">1,353</div><div class="bodyText">Student mentees</div>
+                                            </div>
+                                        </div>
+                                        <div class="threeColSection shadowLeft marginBottom32 textLeft wrapLevel3">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">813</div><div class="bodyText">Alumni mentors</div>
+                                            </div>
+                                        </div>
+                                        <div class="threeColSection shadowLeft marginBottom32 textLeft wrapLevel3">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">2,069</div><div class="bodyText">Alumni volunteered</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearBoth bodyText marginBottom32">
+                                        Non-matched mentors were invited to participate in other career programs:
+                                        Interview With a Bruin, Job Ready Bucket List, Economics in Action
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Block -->
+
+                        <div class="rightBlock width48pc">
+
+                            <!-- VetNet -->
+
+                            <div id="divVetNet" class="clearBoth">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divVetNetImage" class="floatLeft paddingBottom32">
+                                        <img id="imgVetNet" src="images/Connections-VetNet-2x.png" title="VetNet" alt="VetNet" />
+                                    </div>
+
+                                    <div class="clearBoth">
+                                        <div id="divVetNetSubHeadline" class="subHeadlinePage2 marginBottom32">
+                                            UCLA VetNet Career Connections
+                                        </div>
+
+                                        <div class="bodyText marginBottom32">
+                                                UCLA VetNet partnered with UCLA ROTC and the Veterans Resource Center to host current ROTC students and student and alumni veterans for a career panel with Amazon veteran executives (including Daniel Schilleci ’04).  
+                                        </div>
+
+                                    </div>
+
+                                    <div class="twoColRow marginBottom32">
+                                        <div class="clearBoth twoColSection shadowLeft marginBottom16 textLeft leftTwoColumnStackLevel1">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">46 Participants</div><div class="bodyText">“Ready, Aim, Hire!” a three-part series designed to help student veterans utilize their military skills and academic success during the transition from student to career professional.</div>
+                                            </div>
+                                        </div>
+                                        <div class="twoColSection shadowLeft  textLeft leftTwoColumnStackLevel1">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">54 Mentors</div><div class="bodyText">VetNet members have volunteered to coach fellow veterans on the transition from a military career to private or public sector positions</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearBoth bodyText paddingTop32 marginBottom44">
+                                            About VetNet: Officially recognized in 2014, VetNet supports UCLA’s veteran students, alumni, faculty, staff and the local veteran community by promoting student-veteran opportunities and connections. The network raises scholarships for student-veterans, maintains productive dialogue between the student-veteran community and university administration and raises awareness of veterans’ issues through service and advocacy within the community.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Travel -->
+                            <div id="divTravel" class="clearBoth marginTop20">
+                                <div class="paddingH20 topBlock">
+                                    <div id="divTravelImage" class="floatLeft">
+                                        <img id="imgTravel" src="images/Connections-Travel-2x.png" title="Dinner for 12 Strangers" alt="Dinner for 12 Strangers" />
+                                    </div>
+                                    <div id="divTravelQuote" class="paddingH20 floatLeft">
+                                        <div class="floatBoxLeft paddingH20">
+                                            <div class="quoteBox quoteBoxTravel marginBottom16">
+                                                “UCLA Alumni Travel is the only way to go in my opinion. The educational experience far exceeds anything a regular outside tourist organization could ever offer.”<br><br>
+                                                Marirose Dirstine ’72, CRSS ’73, M.A. ‘75, Antarctica
+
+                                            </div>
+                                    
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="RightRightContainerTravel">
+                          
+                                            <div id="divTravelSubHeadline" class="paddingTop32 subHeadlinePage2 marginBottom32">
+                                                UCLA Alumni Travel Program
+                                            </div>
+    
+                                            <div class="bodyText marginBottom16">
+                                                    Great companions make great journeys. Since 1941, UCLA Alumni Travel has given thousands of Bruins access to the camaraderie and excitement of group travel that is affordable, convenient, intellectually stimulating and safe. Join us and we’ll show you the world.
+                                            </div>
+    
+   
+                                        </div>   
+                                    <div class="rightContainerTravel">                          
+                                            <div class="clearBoth paddingH20 shadowLeft marginTop32 marginBottom16 bodyText">
+                                                    <div class="transparentBlock numberBlock">1,254</div><div class="bodyText">Engaged travelers in 2018-19</div>
+                                                </div>
+        
+                                                <div class="paddingH20 shadowLeft bodyText marginBottom32">
+                                                    <div class="transparentBlock numberBlock">58</div><div class="bodyText">Trips, 24 sold out, 18 engaged faculty</div>
+                                                </div>
+                                                <div class="paddingH20 shadowLeft  bodyText">
+                                                        Exceeded revenue goal by 23%
+                                                    </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divOnlinePrograms" class="pageSectionOuter">
+
+                    <div class="pageSection">
+                        <div class="paddingH20">
+                            <div class="clearBoth">
+                                <div class="headline transparentBlock marginBottom64">Meaningful Connections, Built Online</div>
+                            </div>
+
+                            <div class="threeColRow">
+                                <div class="clearBoth threeColSection">
+                                    <div class="marginRight20">
+                                        
+                                        <div class="connectionImageDiv marginBottom32"><img id="imgOnlineAlumniDay" src="images/Online-Alumni-Day-2x.png" class="connectionImage" title="Alumni Day Online" alt="Alumni Day Online" /></div>
+                                        <div class="subHeadlinePage2 marginBottom32 awardHeadlinePage2 textLeft">Alumni Day Online</div>
+                                        <div class="bodyText textLeft marginBottom32">
+                                                UCLA Alumni Day Online made history on Sept. 13, 2018 as a first-of-its-kind university event that gathered the local and global Bruin community. Engaged alumni from 20 countries with highest views in the U.S., Korea, Japan, Hong Kong and India. Received international recognition from CASE as the first program of its kind – Platinum Award
+                                        </div>
+                                        <div class="twoColRow marginBottom32">
+                                            <div class="clearBoth twoColSection shadowLeft textLeft marginBottom32 leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">2,000+</div><div class="bodyText">Spirit building quizzes completed</div>
+                                                </div>
+                                            </div>    
+                                            <div class="twoColSection shadowLeft textLeft marginBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">27,000+</div><div class="bodyText">Minutes of video watched</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearBoth shadowLeft marginBottom32 textLeft">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">211,000+ </div><div class="bodyText">Unique page views</div>
+                                            </div>
+                                        </div>
+                                        <div class="paddingH20 shadowLeft marginBottom32 bodyText textLeft">
+                                            9 YouTube Live Q + A conversations featuring alumni and faculty experts
+                                        </div>
+                                        <div class="marginBottom32 bodyText textLeft">
+                                            Alumni survey responses indicated a rekindled sense of awareness of UCLA
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="threeColSection">
+                                    <div class="marginRight20">                                        
+                                        <div class="connectionImageDiv marginBottom32"><img id="imgJobReady" src="images/Online-Job-Ready-2x.png" class="connectionImage" title="Job Ready" alt="Job Ready" /></div>
+                                        <div class="subHeadlinePage2 marginBottom32  awardHeadlinePage2 textLeft">Job Ready</div>
+                                        <div class="bodyText textLeft marginBottom32">
+                                            Students are helped to prepare for life after graduation through informational interviews, resume critiques and industry-specific webinars led by alumni experts and recruiters.
+                                        </div>
+                                        <div class="bulletList paddingH20 bodyText">
+                                            <ul class="marginBottom32">
+                                                <li>This virtual career preparation and advancement program harnesses the expertise and experience of the UCLA Alumni Network.</li>
+                                                <li>Live video sessions lead by alumni provide critical career insights on job search strategies, networking techniques and résumé  building.</li>
+                                                <li>After completing the online modules, students and alumni are matched for a one-on-one coaching session and résumé  critique.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="paddingH20 shadowLeft marginBottom32 bodyText textLeft">
+                                            “This program was exciting, and I achieved valuable skills in such a short amount of time. I learned how to talk about my major in an interview and became part of a job-ready community!”
+                                            <br>UCLA Student
+                                        </div>
+                                        <div class="paddingH20 shadowLeft marginBottom32 bodyText textLeft">
+                                            “Many universities tout their alumni network but UCLA actually taps into it to ensure graduating students make a solid transition into the workforce.”
+                                            <br>UCLA Graduate
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="threeColSection">
+                                    <div class="marginRight20">
+                                        
+                                        <div class="connectionImageDiv marginBottom32"><img id="imgJobReady" src="images/Online-Social-Media-2x.png" class="connectionImage" title="Alumni Day Online" alt="Alumni Day Online" /></div>
+                                        <div class="subHeadlinePage2 marginBottom32  awardHeadlinePage2 textLeft">Sharing the Stories of Bruins via Social Media</div>
+                                        <div class="bodyText textLeft marginBottom32">
+                                            Every day, the story of Bruins and UCLA is shared through features like Bruin of the Day (#BruinProud), #UCLAMom, #UCLADad, #BruinWeddings and #BruinLove.
+                                        </div>
+                                        <div class="bulletList paddingH20 bodyText">
+                                            <ul class="marginBottom32">
+                                                <li>The UCLA Alumni Social Media team received a CASE District VII Silver Award for “Best Use of Social Media” for the Instagram takeover Winter Olympics Exclusive, with bobsledder Carlo Valdes ’13 live from the 2018 Olympic games. </li>
+                                                <li>Like, follow, join or subscribe to connect with the 125,116 Bruins already currently following us on social media.</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="twoColRow marginBottom32">
+                                            <div class="clearBoth twoColSection shadowLeft textLeft marginBottom32 leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">47,000+</div><div class="bodyText">Facebook followers</div>
+                                                </div>
+                                            </div>
+                                            <div class="twoColSection shadowLeft textLeft marginBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">45,000+</div><div class="bodyText">LinkedIn members</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="twoColRow marginBottom32">
+                                            <div class="clearBoth twoColSection shadowLeft textLeft marginBottom32 leftTwoColumnStackLevel1">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">19,000+</div><div class="bodyText">Instagram followers</div>
+                                                </div>
+                                            </div>
+                                            <div class="twoColSection shadowLeft textLeft marginBottom32">
+                                                <div class="paddingH20">
+                                                    <div class="transparentBlock numberBlock">10,000+</div><div class="bodyText">Twitter followers</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearBoth shadowLeft marginBottom32 textLeft">
+                                            <div class="paddingH20">
+                                                <div class="transparentBlock numberBlock">2,000+ </div><div class="bodyText">YouTube subscribers</div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divNext" class="pageSectionOuter">
+                    <div class="pageSection nextButton">
+                            <div id="divSeeImpact" ><img src="images/Programs-End-Button@2x.png" class="nextButton"></div>
+                        </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

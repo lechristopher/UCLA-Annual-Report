@@ -1,0 +1,526 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCLA Alumni Association Annual Report 2018-19 | Who We Are</title>
+    <link rel="stylesheet" type="text/css" href="css/global-mod.css" />
+    <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport4.css" />
+    <link rel="stylesheet" type="text/css" href="css/AnnualReport-Media4.css" />
+    <link rel="stylesheet" type="text/css" href="css/Menu5.css" />
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400i,700i&display=swap" rel="stylesheet">
+    <!-- Windows 8 IE 10-->
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <script type="text/javascript" src="lib/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+
+        function scrollto(id) {
+            var etop = $('#' + id).offset().top;
+            $(window).scrollTop(etop);
+        }
+
+        function scrolltoSticky(id) {
+            var etop = $('#' + id).offset().top - $('#navbar').height();
+            $(window).scrollTop(etop);
+        }
+
+        function getQS() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+        function getUrlVars(sURL) {
+            var vars = [], hash;
+            var hashes;
+            if (sURL.indexOf('?') > -1 && sURL.indexOf('?') < sURL.length - 1) { // if URL contains ? and it isn't the last char
+                hashes = sURL.slice(sURL.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+            }
+            return vars;
+        }
+        function appendQS(targetURL) {
+            var hrefPage;
+            var varsPage = [];
+            hrefPage = window.location.href;
+            varsPage = getUrlVars(hrefPage);
+            var qs = "";
+            var hrefControl = targetURL;
+            var varsControl = getUrlVars(hrefControl);
+            var key;
+            for (var i = 0; i < varsPage.length; i++) {
+                key = varsPage[i];
+                try {
+                    if (varsControl[key] != null) {
+                        varsControl[key] = varsPage[key];
+                    }
+                    else {
+                        varsControl.push(key);
+                        varsControl[key] = varsPage[key];
+                    }
+                }
+                catch (err) {
+                }
+            }
+            for (var i = 0; i < varsControl.length; i++) {
+                key = varsControl[i];
+                qs += key + "=" + varsControl[key] + "&";
+            }
+            if (qs != "") {
+                qs = "?" + qs.slice(0, -1);
+                if (hrefControl.indexOf('?') > -1) {
+                    hrefControl = hrefControl.slice(0, hrefControl.indexOf('?'));
+                }
+                hrefControl += qs;
+            }
+            window.open(hrefControl, '_blank')
+        }
+        function escapeRegExp(str) {
+            return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+        }
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+        }
+
+        function randomNum(n) {
+            return Math.floor((Math.random() * n) + 1);
+        }
+
+        function Lookup(anArray, idLookup, fieldName) {
+            var result = $.grep(anArray, function (e) { return e.id === idLookup; });
+            if (result.length == 0) {
+                return "";
+            } else {
+                return result[0][fieldName];
+            }
+        }
+
+        function SelectSymbol(id) {
+            $('#' + id).find('.filterValue').css('color', '#FFD100');
+            var img = $('#' + id).find('.imgQuery');
+            if (img.length > 0) {
+                fName = img.attr('src');
+                img.attr('src', fName.replace("White", "Gold"));
+            }
+        }
+
+        $(document).ready(function () {
+
+            var qsLogin = getQS()["login"];
+
+            $(".categoryHeader").on('mouseenter', function () {
+                $(this).animate({ 'opacity': '0.85' }, 100);
+            });
+            $(".categoryHeader").on('mouseleave', function () {
+                $(this).animate({ 'opacity': '1.0' }, 100);
+            });
+
+            //$("#inpEmail").keyup(function (event) {
+            //    if (event.keyCode === 13) {
+            //        $("#divBtnGo").click();
+            //    }
+            //});
+
+            // scroll image to top, under nav bar.
+
+            scrollto("divHeaderImg");
+            $(window).scrollTop(0);
+
+            $('#navbar').on('click', 'a', function (e) {
+                $(this).parent().find('a').removeClass('active');
+                var anchorID = $(this).attr('id');
+                $(this).addClass('active');
+                var sRoot = anchorID.substring(1, anchorID.length);
+                scrolltoSticky("div" + sRoot);
+            });
+
+            $('#divMenuButton').click(function () {
+                toggleButton();
+            });
+
+            //$('#divBtnPrint').click(function () {
+            //    window.print();
+            //});
+
+            $('#divSeeProgramming').click(function () {
+                window.location.href = "programs.html";
+            });
+
+            $(window).scroll(function () {
+
+                var navbar = document.getElementById("navbar");
+                var sticky = navbar.offsetTop;
+
+                if (window.pageYOffset >= sticky) {
+                    navbar.classList.add('sticky');
+                } else {
+                    navbar.classList.remove('sticky');
+                }
+
+                $('#navbar').find('a').removeClass('active');
+                if (window.pageYOffset + $('#navbar').height() >= $('#divStats').offset().top + $('#divStats').height()) {
+                    $('#aAwards').addClass('active');
+                } else if (window.pageYOffset + $('#navbar').height() >= $('#divAboutUs').offset().top + $('#divAboutUs').height()) {
+                    $('#aStats').addClass('active');
+                } else if (window.pageYOffset + $('#navbar').height() >= $('#divWelcome').offset().top + $('#divWelcome').height()) {
+                    $('#aAboutUs').addClass('active');
+                } else if (window.pageYOffset + $('#navbar').height() >= $('#divHeaderImg').offset().top + $('#divHeaderImg').height()) {
+                    $('#aWelcome').addClass('active');
+                }
+
+                updateMissionTextPadding();
+
+            });
+
+            $('#scroll').click(function () {
+                $("html, body").animate({ scrollTop: $("#divSchedule").offset().top }, 600);
+                return false;
+            });
+
+        });
+
+            // var header = document.getElementById("divMenuButton");
+            // var btns = header.getElementsByClassName("dropbtn");
+            // for (var i = 0; i < btns.length; i++) {
+            // btns[i].addEventListener("click", function() {
+            // var current = document.getElementsByClassName("dropbtn:hover");
+            // if (current.length > 0) { 
+            //     current[0].className = current[0].className.replace(" .dropbtn:active", "");
+            // }
+            // this.className += " active";
+            // });
+            // }
+
+        function toggleButton() {
+            $('#myDropdown').toggleClass("show");
+        }
+
+        $('.selector').click(function () { toggleButton(); });
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        
+
+        $(window).ready(updateMissionTextPadding);
+        $(window).resize(updateMissionTextPadding);
+
+        function updateMissionTextPadding() {
+            var imgDiv = $('#divImgOurMission');
+            var imgHeight = imgDiv.height();
+            var textDiv = $('#divTextOurMission');
+            var textHeight = textDiv.height();
+
+            if ((textDiv.offset().top >= imgDiv.offset().top) && (imgHeight > textHeight)) {
+                $('#divTextOurMission').css('padding-top', (imgHeight - textHeight) / 2);
+            } else $('#divTextOurMission').css('padding-top', 0);
+        }
+
+    </script>
+</head>
+<body class="homePageBackgroundBlurImage">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQS39L9"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="OuterWrapper">
+
+        <div class="container">
+
+            <div id="navbar">
+
+                <div class="dropdown">
+                    <button id="divMenuButton" class="dropbtn"></button>                  
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="index.html">Who We Are</a>
+                        <a href="programs.html">Fostering Connection</a>
+                        <a href="impact.html">Leading the Way</a>
+                        <a href="getinvolved.html">Find Your Community</a>
+                    </div>
+                </div>
+
+                <div id="divSectionMenu">
+                    <div class="divBannerMenuItem"><a id="aWelcome" class="active" href="javascript:void(0)">Welcome Letter</a></div>
+                    <div class="divBannerMenuItem">
+                        <a id="aAboutUs" href="javascript:void(0)">Our Mission</a>
+                    </div>
+                    <div class="divBannerMenuItem">
+                        <a id="aStats" href="javascript:void(0)">Stats &amp; Facts</a>
+                    </div>
+                    <div class="divBannerMenuItem">
+                        <a id="aAwards" href="javascript:void(0)">Awards &amp; Recognition</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div id="divHeaderImg">
+                    <img id="imgHeaderRoyce" class="imgHeader" src="images/Title-Image-Ackerman-Combined-2x.png" title="UCLA from Ackerman" alt="UCLA from Ackerman" />
+                </div>
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divWelcome" class="welcomeBoxOuter">
+
+                    <div class="pageSectionWelcome textCentered">
+
+                        <div class="welcomeBox">
+                            <div class="welcomeParagraph">
+                                <b>Dear Bruin,</b>
+                            </div>
+                            <div class="welcomeParagraph">
+                                    Thank you for being an important part of the UCLA alumni community and helping to make 2018-19 another successful year for the UCLA Alumni Association.  
+                            </div>
+                            <div class="welcomeParagraph">
+                                    This year, UCLA Alumni hosted more than 1,110 programs to celebrate, educate, empower and unite Bruins. In this 2018-19 Year-in-Review you’ll see examples selected from many amazing stories that highlight our depth of programming, innovative approaches and overall impact. Sit back and experience this high-level snapshot of new, expanded and unique initiatives. Join in the celebration of what it means to be a True Bruin.
+                            </div>
+                            <div class="welcomeParagraph">
+                                    To see additional details on our alumni engagement trends, we invite you to review our 2018-19 Impact Dashboard. UCLA Alumni Affairs maintained a balanced budget in 2018-19 and the fiscal strength of the organization remains strong.  For additional details, please see our Financial Statement.
+                            </div>
+                            <div class="welcomeParagraph">
+                                We have a number of exciting opportunities already planned for the year ahead.  We look forward to seeing you at our next event, in person or virtually!
+                            </div>
+                            <div class="welcomeParagraph">
+                                Go Bruins!
+                            </div>
+                            <div class="welcomeParagraph welcomeSignature">
+                                Julie Sina<br />
+                                Associate Vice Chancellor<br />
+                                UCLA Alumni Affairs
+                            </div>
+                            <div class="welcomeParagraph welcomeSignature">
+                                Cheryl Lott ʼ01, J.D. ʼ04<br />
+                                President<br />
+                                UCLA Alumni Association
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divAboutUs" class="pageSectionOuter whiteBG">
+
+                    <div class="pageSection">
+                        <div class="leftBlock width35pc verticalSpacer colorBlack">
+                            <div id="outer" class="paddingH20 topBlock">
+                                <div id="divTextOurMission">
+                                    <div class="headline boxText">Mission &amp; Vision</div>
+                                    <div class="subHeadline">
+                                            Wherever you are in life or the world, we provide the bridge back to UCLA. 
+                                    </div>
+                                    <div class="bodyText">
+                                            Since 1934, our mission has been to enrich the lives of alumni and offer ways to engage you in UCLA’s future.  We serve as a vital partner in the success of UCLA through the significant engagement of alumni – a vision we could not achieve without your active involvement.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divImgOurMission" class="rightBlock width60pc"><img id="imgOurMission" class="communityImage" src="images/Mission-Vision-Image-2x.png" title="Our mission" alt="Our mission" /></div>
+                    </div>
+                </div>
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divStats" class="pageSectionOuter">
+
+                    <div class="pageSection">
+                        <div class="leftBlock width50pc">
+                            <div class="paddingLeft20">
+                                <div class="headline transparentBlock">Stats &amp; Facts</div>            
+                            </div>
+                        </div>
+
+                        <div class="subHeadline paddingLeft20">
+                                We're a proud community of <span class="colorGold">435,299</span> living alumni with <span class="colorGold">12,104</span> new graduates joining our community over the past year.
+                            </div>
+
+                        <div class="paddingH20 paddingTop12 clearBoth">
+                            <div class="col1-4 shadowLeft"><div class="transparentBlock numberBlock">7%</div><div class="bodyText">Increase in event participation over the last year</div></div>
+                            <div class="col1-4 shadowLeft"><div class="transparentBlock numberBlock">1,341</div><div class="bodyText">Events hosted by UCLA Alumni Affairs</div></div>
+                            <div class="col1-4 shadowLeft marginBottomNarrow50"><div class="transparentBlock numberBlock">6,164</div><div class="bodyText">Engaged volunteers, up 43% over last year</div></div>
+                            <div class="col1-4 shadowLeft"><div class="transparentBlock numberBlock">12,367</div><div class="bodyText">Unique alumni participated in an alumni event, up 15% from last year</div></div>
+                        </div>
+                        <div class="subHeadline paddingH20 paddingTop16 clearBoth">
+                            <div class="col1-4 shadowLeft widthUnset textSaleDownNarrow">
+                                <span class="colorGold">45,784</span> event participants deepened their UCLA connection by attending on or more Alumni programs
+                            </div>
+                        </div>
+
+                        <div class="subHeadlinePage1 paddingH20 paddingTop44 clearBoth">
+                            <b>Programs with notable participation increases:</b>
+                        </div>
+
+                        <div class="paddingH20 paddingTop16 clearBoth">
+                            <div class="col1-4-Outer">
+                                <div class="col1-4-Header">Bruin Traditions</div>
+                                <div class="col1-4-Inner shadowLeft">
+                                    <div class="clearBoth transparentBlock numberBlock">4,304</div>
+                                    <div class="bodyText">Engaged constituents, up 48% over last year</div>
+                                </div>
+                            </div>
+                            <div class="col1-4-Outer">
+                                <div class="col1-4-Header">Regional Networks</div>
+                                <div class="col1-4-Inner shadowLeft">
+                                    <div class="clearBoth transparentBlock numberBlock">7,162</div>
+                                    <div class="bodyText">Bruins united domestically, up 43% over last year</div>
+                                </div>
+                            </div>
+                            <div class="col1-4-Outer">
+                                <div class="col1-4-Header">Parent &amp; Family Programs</div>
+                                <div class="col1-4-Inner shadowLeft">
+                                    <div class="clearBoth transparentBlock numberBlock">2,611</div>
+                                    <div class="bodyText">Engaged parents and family members, up 43% over last year</div>
+                                </div>
+                            </div>
+                            <div class="col1-4-Outer">
+                                <div class="col1-4-Header">Partnership UCLA / Alumni Career Programs</div>
+                                <div class="col1-4-Inner shadowLeft">
+                                    <div class="clearBoth transparentBlock numberBlock">9,605</div>
+                                    <div class="bodyText">Alumni and students supported, up 4% over last year</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subHeadline paddingH20 paddingTop44 clearBoth">
+                            <b>Bruins continue to make an impact around the globe:</b>
+                        </div>
+
+                        <div class="paddingH20 paddingTop16 clearBoth">
+                            <div class="col1-4 shadowLeft"><div class="transparentBlock numberBlock">187,000+</div><div class="bodyText">Live in Los Angeles County</div></div>
+                            <div class="col1-4 shadowLeft"><div class="transparentBlock numberBlock">86,000+</div><div class="bodyText">Live in Southern California, outside of LA county</div></div>
+                            <div class="col1-4 shadowLeft marginBottomNarrow80"><div class="transparentBlock numberBlock">50,000+</div><div class="bodyText">Live in the Bay Area</div></div>
+                            <div class="col1-4 shadowLeft"><div class="transparentBlock numberBlock">18,000+</div><div class="bodyText">Reside in Northern California</div></div>
+                        </div>
+
+                        <div class="subHeadline paddingH20 paddingTop16 clearBoth">
+                            <div class="col2-4 shadowLeft textSaleDownNarrow">
+                                <span class="colorGold">86,000+</span> live in the US outside of California.
+                            </div>
+                            <div class="col2-4 shadowLeft textSaleDownNarrow">
+                                <span class="colorGold">6,000+</span> live abroad.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="divFooterImage">
+                    <img src="images/AlumniDayWebsite_FooterImage.png" class="footerImage" />
+                </div>
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divAwards" class="pageSectionOuter paddingBottom60">
+
+                    <div class="pageSection">
+                        <div class="paddingH20">
+                            <div class="leftMobileStack clearBoth">
+                                <div class="headline transparentBlock">Awards &amp; Recognition</div>
+                                <div class="subHeadline">
+                                        In fiscal year 2018-19 UCLA Alumni Affairs received national and international acclaim for engaging and supporting alumni and the UCLA community with best practices and the latest innovations. Following are a few of those accomplishments.
+                                </div>
+                            </div>
+
+                            <div class="rightMobileStack shadowLeft">
+                                <div><img id="imgCase" src="images/Case-Logo-01.png" style="max-width:100%;" title="CASE" alt="CASE" /></div>
+                                <div class="bodyText paddingTop9">Each year, CASE recognizes best practices in advancement and outstanding people who contribute to the growth and understanding of the advancement profession.</div>
+                            </div>
+
+                            <div class="threeColRow paddingTop32">
+                                <div class="clearBoth threeColSection">
+                                    <div class="subHeadline awardHeadline paddingH20">CASE Circle of Excellence Awards</div>
+                                    <div class="awardImageDiv paddingH20"><img id="imgCaseAward1" src="images/Awards-Circle.png" class="awardImagePage1" title="CASE Circle of Excellence" alt="CASE Circle of Excellence" /></div>
+                                    <div class="bulletList paddingH20 paddingTop16">
+                                        <ul>
+                                            <li>Platinum Award for Best Practices in Alumni Relations – Alumni Day Online</li>
+                                            <li>Gold Award for Alumni Relations: Programming for Special Constituencies – First Gen Alumni Network</li>
+                                            <li>Gold Award for Alumni Relations: Student Alumni Initiatives – Dinners for 12 Strangers</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="threeColSection">
+                                    <div class="subHeadline awardHeadline paddingH20">CASE Affiliated Student Advancement&#160;Program&#160;Awards</div>
+                                    <div class="awardImageDiv paddingH20"><img id="imgCaseAward2" src="images/Awards-Affiliated.png" class="awardImagePage1" title="CASE Affiliated Student Advancement Program" alt="CASE Affiliated Student Advancement Program" /></div>
+                                    <div class="bulletList paddingH20 paddingTop16">
+                                        <ul>
+                                            <li>Special Certificate – 50th Anniversary of Dinners for 12 Strangers</li>
+                                            <li>Outstanding Student Advancement Program – Social Justice at Work</li>
+                                            <li>Outstanding Advisor – Alyson Beckman</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="threeColSection">
+                                    <div class="subHeadline awardHeadline paddingH20">CASE District VII Regional Awards</div>
+                                    <div class="awardImageDiv paddingH20"><img id="imgCaseAward3" src="images/Awards-District.png" class="awardImagePage1" title="CASE District VII Regional" alt="CASE District VII Regional" /></div>
+                                    <div class="bulletList paddingH20 paddingTop16">
+                                        <ul>
+                                            <li>Grand Gold Award for Alumni Relations Program – Alumni Day Online</li>
+                                            <li>Gold Award for Student Alumni Initiatives – Dinners for 12 Strangers</li>
+                                            <li>Silver Award for Best Use of Social Media – Winter Olympics Exclusive</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearBoth">
+                                &nbsp;
+                                <div class="clearBoth shadowLeft width70pc marginAuto paddingH20">Staff presented at numerous conferences including NASPA, CASE District VII, CAAE Winter Institute, AHEPPP, Graduway Global Leaders’ Summit, West Coast Marketing Group and Blackbaud Higher Education Forum.
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dividerBar noPrint">
+                    &nbsp;
+                </div>
+
+                <div id="divNext" class="pageSectionOuter">
+
+                    <div class="pageSection nextButton">
+                        <div id="divSeeProgramming" ><img src="images/About-Us-End-Button@2x.png" class="nextButton"></div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
